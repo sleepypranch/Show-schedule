@@ -6,28 +6,28 @@
 <title>Sleepy P Ranch Show Schedule</title>
 <style>
   :root{
-    --green:#17352a; --green-deep:#0f241c; --cream:#f7f2e6; --cream-card:#fffdf6;
-    --gold:#c19a3f; --gold-soft:#e8d9ae; --ink:#2b2b26; --muted:#6f6a5c;
-    --line:#e5dcc4; --bronze:#a06a35; --silver:#8a8f94;
+    --green:#f5f5f5; --green-deep:#000000; --cream:#0b0b0b; --cream-card:#141414;
+    --gold:#9a9a9a; --gold-soft:#e8e8e8; --ink:#f2f2f2; --muted:#a8a8a8;
+    --line:#2a2a2a; --bronze:#7d7d7d; --silver:#8a8f94;
   }
   *{box-sizing:border-box; margin:0; padding:0}
   body{font-family:Georgia,'Times New Roman',serif; background:var(--cream); color:var(--ink); line-height:1.45}
   .hero{position:relative; color:#fff; text-align:center; padding:64px 20px 40px; overflow:hidden; background:var(--green-deep)}
-  .hero .bg{position:absolute; inset:0; background:url('assets/header.jpg') center 62%/cover no-repeat; opacity:.42}
-  .hero .shade{position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,36,28,.55), rgba(15,36,28,.82))}
+  .hero .bg{position:absolute; inset:0; background:url('assets/header.jpg') center 62%/cover no-repeat; opacity:.5}
+  .hero .shade{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.85))}
   .hero > *{position:relative}
   .hero h1{font-size:clamp(28px,5vw,46px); letter-spacing:.04em; font-weight:400}
   .hero h1 .amp{color:var(--gold-soft)}
   .hero .sub{margin-top:8px; font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-soft)}
-  .hero .venue{margin-top:4px; font-size:13px; color:#d8d2bd; font-style:italic}
-  .updated{display:inline-flex; align-items:center; gap:7px; margin-top:16px; background:rgba(255,255,255,.12);
-    border:1px solid rgba(201,154,63,.55); border-radius:999px; padding:6px 16px; font-size:13px; color:#f3ecd9; font-family:system-ui,sans-serif}
-  .updated svg{width:14px; height:14px; stroke:var(--gold-soft); fill:none; stroke-width:2}
+  .hero .venue{margin-top:4px; font-size:13px; color:#b5b5b5; font-style:italic}
+  .updated{display:inline-flex; align-items:center; gap:7px; margin-top:16px; background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.35); border-radius:999px; padding:6px 16px; font-size:13px; color:#f2f2f2; font-family:system-ui,sans-serif}
+  .updated svg{width:14px; height:14px; stroke:#fff; fill:none; stroke-width:2}
   main{max-width:920px; margin:0 auto; padding:0 16px 60px}
   .tabs{display:flex; gap:8px; justify-content:center; margin:22px 0 6px; flex-wrap:wrap}
   .tab{font-family:system-ui,sans-serif; font-size:14px; letter-spacing:.02em; padding:10px 22px; border-radius:999px;
     border:1px solid var(--line); background:var(--cream-card); color:var(--muted); cursor:pointer}
-  .tab[aria-selected="true"]{background:var(--green); color:#fff; border-color:var(--green)}
+  .tab[aria-selected="true"]{background:var(--green); color:#000; border-color:var(--green)}
   .panel{display:none; padding-top:14px}
   .panel.active{display:block}
   .strip{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; margin:10px 0 18px;
@@ -36,7 +36,7 @@
   .strip .range{font-size:16px; font-weight:600; color:var(--green)}
   .strip .money{justify-content:flex-start}
   .card{background:var(--cream-card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:0 0 16px;
-    box-shadow:0 1px 3px rgba(23,53,42,.06)}
+    box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .card h3{font-size:20px; font-weight:400; margin-bottom:2px}
   .card h3 a{color:var(--green); text-decoration:none; border-bottom:1px dotted var(--gold)}
   .card h3 a:hover{color:var(--gold)}
@@ -45,21 +45,21 @@
   .meta b{color:var(--ink); font-weight:600}
   .wx{margin:8px 0; font-family:system-ui,sans-serif; font-size:13.5px; color:var(--muted)}
   .oog{font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted); margin-top:6px}
-  .oog.ok{color:#3f6b4f}
+  .oog.ok{color:#e8e8e8}
   .rides{margin-top:12px; border-top:1px solid var(--line); padding-top:10px}
-  .ride{display:flex; gap:10px; align-items:baseline; padding:7px 0; font-size:15px; border-bottom:1px dashed #eee5cd}
+  .ride{display:flex; gap:10px; align-items:baseline; padding:7px 0; font-size:15px; border-bottom:1px dashed #2e2e2e}
   .ride:last-child{border-bottom:none}
   .ride .go{font-family:system-ui,sans-serif; font-weight:700; color:var(--green); min-width:44px}
   .ride .horse{font-weight:700}
   .ride .who{font-family:system-ui,sans-serif; font-size:13px; color:var(--muted)}
   .dayhead{margin:26px 0 12px; font-size:19px; color:var(--green); border-bottom:2px solid var(--gold); padding-bottom:6px; display:flex; justify-content:space-between; align-items:baseline}
   .dayhead .dsub{font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted)}
-  .res-line{display:flex; gap:10px; align-items:baseline; padding:8px 0; border-bottom:1px dashed #eee5cd; font-size:15px}
+  .res-line{display:flex; gap:10px; align-items:baseline; padding:8px 0; border-bottom:1px dashed #2e2e2e; font-size:15px}
   .res-line:last-child{border-bottom:none}
-  .place{font-family:system-ui,sans-serif; font-weight:700; min-width:52px; text-align:center; border-radius:8px; padding:3px 6px; background:#f1ebda; color:var(--green); font-size:13px}
-  .place.p1{background:linear-gradient(135deg,#d4af37,#f4e3a1); color:#4a3a08}
-  .place.p2{background:linear-gradient(135deg,#aeb4b9,#e8ebee); color:#3c4147}
-  .place.p3{background:linear-gradient(135deg,#b07a3f,#e8c39a); color:#4a2c10}
+  .place{font-family:system-ui,sans-serif; font-weight:700; min-width:52px; text-align:center; border-radius:8px; padding:3px 6px; background:#2a2a2a; color:#fff; font-size:13px}
+  .place.p1{background:linear-gradient(135deg,#f5f5f5,#c9c9c9); color:#000}
+  .place.p2{background:linear-gradient(135deg,#b5b5b5,#e2e2e2); color:#1a1a1a}
+  .place.p3{background:linear-gradient(135deg,#7d7d7d,#a8a8a8); color:#000}
   .res-detail{font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted); margin-top:2px}
   .prize{margin-left:auto; font-family:system-ui,sans-serif; font-weight:700; color:var(--green); white-space:nowrap}
   .empty{text-align:center; padding:48px 20px; color:var(--muted); font-style:italic}
@@ -80,7 +80,7 @@
   <div class="venue">Tryon International Equestrian Center</div>
   <div><span class="updated">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-    Last updated October 3, 2026 at 3:28 PM EDT
+    Last updated October 3, 2026 at 3:43 PM EDT
   </span></div>
 </header>
 <main>
@@ -94,8 +94,8 @@
     <div class="strip"><span class="cell range">10:29 AM – 2:45 PM</span><span class="cell">5 classes</span><span class="cell">6 rides</span></div>
 <div class="card"><div class="cnum">Class 4</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019734&sid=200000045" target="_blank" rel="noopener">FEI $70,000 CSI2* Grand Prix 220.2.1.2</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>10:29 AM</b></span><span><b>55</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 5:43 PM</div><div class="rides"><div class="ride"><span class="go">#8</span><span><span class="horse">KENTUCKY N</span> <span class="who">Entry 5287 &middot; Wilton Porter</span></span></div><div class="ride"><span class="go">#36</span><span><span class="horse">STERNMARKE 3</span> <span class="who">Entry 5288 &middot; Wilton Porter</span></span></div></div></div>
 <div class="card"><div class="cnum">Class 756</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019653&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2.1</a></h3><div class="meta"><span>Ring <b>Ring 6</b></span><span>Est. start <b>12:30 PM</b></span><span><b>14</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#4</span><span><span class="horse">TENTACION LS LA SILLA</span> <span class="who">Entry 5291 &middot; Miley Davidyan</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 768</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019703&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m II2.1</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>1:45 PM</b></span><span><b>8</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 4:33 PM</div><div class="rides"><div class="ride"><span class="go">#1</span><span><span class="horse">CAVENDISH</span> <span class="who">Entry 5285 &middot; Andressa Quadros</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 764</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019850&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2.1</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>2:15 PM</b></span><span><b>9</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#7</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Entry 5286 &middot; Andressa Quadros</span></span></div></div></div>
+<div class="card"><div class="cnum">Class 768</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019703&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m II2.1</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>1:45 PM</b></span><span><b>8</b> trips</span></div><div class="wx">~78&deg;F &middot; Chance Showers And Thunderstorms &middot; 30% rain</div><div class="oog ok">Order of go set Oct 2, 4:33 PM</div><div class="rides"><div class="ride"><span class="go">#1</span><span><span class="horse">CAVENDISH</span> <span class="who">Entry 5285 &middot; Andressa Quadros</span></span></div></div></div>
+<div class="card"><div class="cnum">Class 764</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019850&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2.1</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>2:15 PM</b></span><span><b>9</b> trips</span></div><div class="wx">~78&deg;F &middot; Chance Showers And Thunderstorms &middot; 30% rain</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#7</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Entry 5286 &middot; Andressa Quadros</span></span></div></div></div>
 <div class="card"><div class="cnum">Class 799</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200021636&sid=200000045" target="_blank" rel="noopener">1.15m Training Jumper </a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>2:45 PM</b></span><span><b>4</b> trips</span></div><div class="wx">~78&deg;F &middot; Chance Showers And Thunderstorms &middot; 44% rain</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#1</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Entry 5286 &middot; Andressa Quadros</span></span></div></div></div>
   </section>
   <section class="panel" id="p-tomorrow" role="tabpanel">
@@ -127,7 +127,7 @@
 <div class="note">Results through Saturday, October 3</div>
   </section>
 
-  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-03 15:28 EDT</footer>
+  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-03 15:43 EDT</footer>
 </main>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn){
