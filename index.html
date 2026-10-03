@@ -6,128 +6,221 @@
 <title>Sleepy P Ranch Show Schedule</title>
 <style>
   :root{
-    --green:#17352a; --green-deep:#0f241c; --cream:#f7f2e6; --cream-card:#fffdf6;
-    --gold:#c19a3f; --gold-soft:#e8d9ae; --ink:#2b2b26; --muted:#6f6a5c;
-    --line:#e5dcc4; --bronze:#a06a35; --silver:#8a8f94;
+    --green:#17352a; --green-deep:#0f241c; --cream:#f7f2e6; --card:#fffdf6;
+    --gold:#c19a3f; --gold-deep:#8a6d1f; --gold-soft:#e8d9ae; --pill-bg:#f9f1dd;
+    --ink:#2b2b26; --muted:#6f6a5c; --line:#e5dcc4; --line-soft:#efe8d3;
   }
   *{box-sizing:border-box; margin:0; padding:0}
-  body{font-family:Georgia,'Times New Roman',serif; background:var(--cream); color:var(--ink); line-height:1.45}
-  .hero{position:relative; color:#fff; text-align:center; padding:64px 20px 40px; overflow:hidden; background:var(--green-deep)}
-  .hero .bg{position:absolute; inset:0; background:url('assets/header.jpg') center top/cover no-repeat; opacity:.42}
-  .hero .shade{position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,36,28,.55), rgba(15,36,28,.82))}
-  .hero > *{position:relative}
-  .hero h1{font-size:clamp(28px,5vw,46px); letter-spacing:.04em; font-weight:400}
-  .hero h1 .sched{display:block; font-size:.5em; letter-spacing:.34em; text-transform:uppercase; margin-top:8px; color:var(--gold-soft)}
-  .hero .sub{margin-top:8px; font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-soft)}
-  .hero .venue{margin-top:4px; font-size:13px; color:#d8d2bd; font-style:italic}
-  .updated{display:inline-flex; align-items:center; gap:7px; margin-top:16px; background:rgba(255,255,255,.12);
-    border:1px solid rgba(201,154,63,.55); border-radius:999px; padding:6px 16px; font-size:13px; color:#f3ecd9; font-family:system-ui,sans-serif}
-  .updated svg{width:14px; height:14px; stroke:var(--gold-soft); fill:none; stroke-width:2}
-  main{max-width:920px; margin:0 auto; padding:0 16px 60px}
-  .tabs{display:flex; gap:8px; justify-content:center; margin:22px 0 6px; flex-wrap:wrap}
-  .tab{font-family:system-ui,sans-serif; font-size:14px; letter-spacing:.02em; padding:10px 22px; border-radius:999px;
-    border:1px solid var(--line); background:var(--cream-card); color:var(--muted); cursor:pointer}
-  .tab[aria-selected="true"]{background:var(--green); color:#fff; border-color:var(--green)}
-  .panel{display:none; padding-top:14px}
+  body{font-family:Georgia,'Times New Roman',serif; background:var(--cream); color:var(--ink); line-height:1.5}
+  .sans{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; color:#fff; overflow:hidden; background:var(--green-deep)}
+  .hero .photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top}
+  .hero .shade{position:absolute; inset:0;
+    background:linear-gradient(100deg, rgba(10,20,15,.80) 0%, rgba(10,20,15,.48) 55%, rgba(10,20,15,.28) 100%)}
+  .hero-inner{position:relative; max-width:920px; margin:0 auto; padding:56px 20px 38px}
+  .hero h1{font-size:clamp(34px,6vw,54px); font-weight:400; line-height:1.05; letter-spacing:.01em; color:#fffdf6}
+  .hero h1 .sched{display:block; font-style:italic; font-size:.48em; color:var(--gold-soft); margin-top:6px; letter-spacing:.02em}
+  .hero-cols{display:flex; gap:52px; flex-wrap:wrap; margin-top:24px}
+  .eyebrow{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--gold-soft); opacity:.9}
+  .hval{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:15px; color:#fff; margin-top:5px}
+  .updated{display:inline-flex; align-items:center; gap:8px; margin-top:22px; background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.38); border-radius:999px; padding:7px 16px;
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:#fff}
+  .updated svg{width:14px; height:14px; stroke:#fff; fill:none; stroke-width:2}
+
+  /* ---------- layout / tabs ---------- */
+  main{max-width:920px; margin:0 auto; padding:0 16px 64px}
+  .tabs{display:flex; gap:10px; justify-content:center; margin:26px 0 8px; flex-wrap:wrap}
+  .tab{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; padding:10px 24px; border-radius:999px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer}
+  .tab b{font-weight:700}
+  .tab[aria-selected="true"]{background:var(--green); border-color:var(--green); color:#fff}
+  .panel{display:none}
   .panel.active{display:block}
-  .strip{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; margin:10px 0 18px;
-    font-family:system-ui,sans-serif; font-size:13.5px; color:var(--muted)}
-  .strip .cell{background:var(--cream-card); border:1px solid var(--line); border-radius:10px; padding:8px 16px; white-space:nowrap}
-  .strip .range{font-size:16px; font-weight:600; color:var(--green)}
-  .strip .money{justify-content:flex-start}
-  .card{background:var(--cream-card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:0 0 16px;
-    box-shadow:0 1px 3px rgba(23,53,42,.06)}
-  .card h3{font-size:20px; font-weight:400; margin-bottom:2px}
-  .card h3 a{color:var(--green); text-decoration:none; border-bottom:1px dotted var(--gold)}
-  .card h3 a:hover{color:var(--gold)}
-  .card .cnum{font-family:system-ui,sans-serif; font-size:12px; letter-spacing:.12em; color:var(--gold); text-transform:uppercase}
-  .meta{display:flex; flex-wrap:wrap; gap:6px 18px; margin:10px 0 4px; font-family:system-ui,sans-serif; font-size:13.5px; color:var(--muted)}
-  .meta b{color:var(--ink); font-weight:600}
-  .wx{margin:8px 0; font-family:system-ui,sans-serif; font-size:13.5px; color:var(--muted)}
-  .oog{font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted); margin-top:6px}
-  .oog.ok{color:#3f6b4f}
-  .rides{margin-top:12px; border-top:1px solid var(--line); padding-top:10px}
-  .ride{display:flex; gap:10px; align-items:baseline; padding:7px 0; font-size:15px; border-bottom:1px dashed #eee5cd}
+
+  /* ---------- day panel ---------- */
+  .day-h2{font-size:clamp(26px,4vw,36px); font-weight:400; margin:26px 0 10px}
+  .lede{color:var(--muted); font-size:16px; max-width:660px; margin-bottom:20px}
+  .lede b{color:var(--ink); font-weight:700}
+  .glance{display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:12px; margin-bottom:24px}
+  .gcard{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 18px}
+  .gnum{font-size:27px; line-height:1.1}
+  .gnum.small{font-size:21px}
+  .glabel{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); margin-top:5px}
+
+  /* ---------- class card ---------- */
+  .card{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--gold);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px; box-shadow:0 2px 8px rgba(23,53,42,.05)}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:18px}
+  .title-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .class-pill{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); background:var(--pill-bg);
+    border:1px solid #d9b96a; border-radius:6px; padding:4px 10px; white-space:nowrap}
+  .card h3{font-size:22px; font-weight:700; line-height:1.25}
+  .card h3 a{color:var(--ink); text-decoration:none}
+  .card h3 a:hover{text-decoration:underline}
+  .card-time{text-align:right; white-space:nowrap; flex:none}
+  .card-time .t{font-size:24px}
+  .card-time .tlbl{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:10.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); margin-top:3px}
+  .sponsor{font-size:13.5px; color:var(--muted); font-style:italic; margin-top:6px}
+  .card hr{border:none; border-top:1px solid var(--line-soft); margin:15px 0}
+  .meta{display:flex; flex-wrap:wrap; gap:8px 30px; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13.5px}
+  .mlabel{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-right:8px}
+  .meta b{font-weight:700; color:var(--ink)}
+  .oog{font-size:13.5px; color:var(--muted); margin-top:10px}
+  .oog b{color:var(--ink); font-weight:700}
+
+  /* ---------- weather ---------- */
+  .wx{display:flex; align-items:center; gap:14px; border:1px solid var(--line); border-radius:12px;
+    background:#fbf7ea; padding:12px 16px; margin-top:14px}
+  .wx-icon{width:46px; height:46px; flex:none; border:1.5px solid var(--gold); border-radius:11px;
+    display:flex; align-items:center; justify-content:center; background:var(--card)}
+  .wx-icon svg{width:24px; height:24px; stroke:var(--gold-deep); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+  .wx-temp{font-size:30px; line-height:1}
+  .wx-cond{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+  .wx-cond b{display:block; font-size:15px; color:var(--ink)}
+  .wx-cond small{font-size:12.5px; color:var(--muted)}
+  .wx-at{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:10.5px;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--muted); white-space:nowrap}
+
+  /* ---------- rides ---------- */
+  .rides-head{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); margin:18px 0 4px}
+  .ride{display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px dashed var(--line-soft)}
   .ride:last-child{border-bottom:none}
-  .ride .go{font-family:system-ui,sans-serif; font-weight:700; color:var(--green); min-width:44px}
-  .ride .horse{font-weight:700}
-  .ride .who{font-family:system-ui,sans-serif; font-size:13px; color:var(--muted)}
-  .dayhead{margin:26px 0 12px; font-size:19px; color:var(--green); border-bottom:2px solid var(--gold); padding-bottom:6px; display:flex; justify-content:space-between; align-items:baseline}
-  .dayhead .dsub{font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted)}
-  .res-line{display:flex; gap:10px; align-items:baseline; padding:8px 0; border-bottom:1px dashed #eee5cd; font-size:15px}
-  .res-line:last-child{border-bottom:none}
-  .place{font-family:system-ui,sans-serif; font-weight:700; min-width:52px; text-align:center; border-radius:8px; padding:3px 6px; background:#f1ebda; color:var(--green); font-size:13px}
+  .go-circle{width:46px; height:46px; flex:none; border-radius:50%; background:var(--green); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:15px}
+  .ride-main .horse{font-weight:700; font-size:16px}
+  .ride-main .rider{display:block; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-top:1px}
+  .entry{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); white-space:nowrap}
+
+  /* ---------- weekly results ---------- */
+  .res-summary{background:var(--green); color:#fff; border-radius:12px; padding:16px 22px;
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin:18px 0 10px}
+  .rs-count{font-size:19px; font-style:italic; white-space:nowrap}
+  .rs-div{width:1px; align-self:stretch; background:rgba(255,255,255,.25)}
+  .rs-riders{display:flex; gap:22px; flex-wrap:wrap; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px}
+  .rs-riders b{font-weight:700}
+  .rs-total{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; white-space:nowrap}
+  .rs-total b{font-weight:700}
+  .asof{font-size:13px; color:var(--muted); margin-bottom:4px}
+  .dayhead{display:flex; align-items:baseline; gap:12px; margin:26px 0 12px}
+  .dayhead h3{font-size:22px; font-weight:700}
+  .dayhead .dsub{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted)}
+  .pend-label{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+  .pend-row{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px dashed var(--line-soft)}
+  .pend-row:last-child{border-bottom:none}
+  .pend-row .cname{font-weight:700; font-size:15.5px}
+  .pend-row .cname a{color:var(--ink); text-decoration:none}
+  .pend-row .cname a:hover{text-decoration:underline}
+  .pend-status{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--muted); white-space:nowrap}
+  .title-row .pend-status{font-size:12px; letter-spacing:.08em; text-transform:uppercase}
+  .res-row{display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px dashed var(--line-soft)}
+  .res-row:last-child{border-bottom:none}
+  .place{flex:none; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; min-width:56px;
+    text-align:center; border-radius:8px; padding:4px 8px; background:#f1ebda; color:var(--green); font-size:13px}
   .place.p1{background:linear-gradient(135deg,#d4af37,#f4e3a1); color:#4a3a08}
   .place.p2{background:linear-gradient(135deg,#aeb4b9,#e8ebee); color:#3c4147}
   .place.p3{background:linear-gradient(135deg,#b07a3f,#e8c39a); color:#4a2c10}
-  .res-detail{font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted); margin-top:2px}
-  .prize{margin-left:auto; font-family:system-ui,sans-serif; font-weight:700; color:var(--green); white-space:nowrap}
+  .res-main .horse{font-weight:700; font-size:15.5px}
+  .res-main .rider{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-left:8px}
+  .res-detail{display:block; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-top:2px}
+  .prize{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700;
+    color:var(--ink); white-space:nowrap}
+
   .empty{text-align:center; padding:48px 20px; color:var(--muted); font-style:italic}
-  .note{text-align:center; font-family:system-ui,sans-serif; font-size:12.5px; color:var(--muted); margin-top:18px}
-  footer{text-align:center; font-family:system-ui,sans-serif; font-size:11.5px; color:var(--muted); padding:24px 0 8px}
+  footer{text-align:center; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; color:var(--muted); padding:28px 0 8px}
+
   @media (max-width:560px){
-    .card{padding:14px}
+    .hero-inner{padding:40px 18px 28px}
+    .hero-cols{gap:24px}
+    .card{padding:16px}
+    .card-top{flex-direction:column}
+    .card-time{text-align:left}
+    .glance{grid-template-columns:1fr 1fr}
+    .glance .gcard:last-child{grid-column:1 / -1}
+    .wx-at{display:none}
+    .res-summary{gap:12px}
+    .rs-div{display:none}
+    .rs-total{margin-left:0}
     .ride{flex-wrap:wrap}
-    .strip .cell{padding:7px 12px; font-size:12.5px}
   }
 </style>
 </head>
 <body>
 <header class="hero">
-  <div class="bg"></div><div class="shade"></div>
-  <h1>Sleepy P Ranch<br><span class="sched">Show Schedule</span></h1>
-  <div class="sub">Sep 28 – Oct 3, 2026</div>
-  <div class="venue">Tryon International Equestrian Center</div>
-  <div><span class="updated">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-    Last updated October 3, 2026 at 3:49 PM EDT
-  </span></div>
+  <img class="photo" src="assets/header.jpg" alt="Show jumping at Tryon International Equestrian Center">
+  <div class="shade"></div>
+  <div class="hero-inner">
+    <h1>Sleepy P Ranch<br><span class="sched">Show Schedule</span></h1>
+    <div class="hero-cols">
+      <div><div class="eyebrow">Venue</div><div class="hval">Tryon International Equestrian Center</div></div>
+      <div><div class="eyebrow">Show week</div><div class="hval">Sep 28 – Oct 3, 2026</div></div>
+    </div>
+    <div><span class="updated">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Last updated October 3, 2026 at 4:04 PM EDT
+    </span></div>
+  </div>
 </header>
 <main>
   <nav class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-panel="p-today">Saturday Oct 3</button>
-    <button class="tab" role="tab" aria-selected="false" data-panel="p-tomorrow">Sunday Oct 4</button>
+    <button class="tab" role="tab" aria-selected="true" data-panel="p-today"><b>Saturday</b> Oct 3</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-tomorrow"><b>Sunday</b> Oct 4</button>
     <button class="tab" role="tab" aria-selected="false" data-panel="p-results">Weekly Results</button>
   </nav>
 
   <section class="panel active" id="p-today" role="tabpanel">
-    <div class="strip"><span class="cell range">10:29 AM – 2:45 PM</span><span class="cell">5 classes</span><span class="cell">6 rides</span></div>
-<div class="card"><div class="cnum">Class 4</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019734&sid=200000045" target="_blank" rel="noopener">FEI $70,000 CSI2* Grand Prix 220.2.1.2</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>10:29 AM</b></span><span><b>55</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 5:43 PM</div><div class="rides"><div class="ride"><span class="go">#8</span><span><span class="horse">KENTUCKY N</span> <span class="who">Entry 5287 &middot; Wilton Porter</span></span></div><div class="ride"><span class="go">#36</span><span><span class="horse">STERNMARKE 3</span> <span class="who">Entry 5288 &middot; Wilton Porter</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 756</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019653&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2.1</a></h3><div class="meta"><span>Ring <b>Ring 6</b></span><span>Est. start <b>12:30 PM</b></span><span><b>14</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#4</span><span><span class="horse">TENTACION LS LA SILLA</span> <span class="who">Entry 5291 &middot; Miley Davidyan</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 768</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019703&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m II2.1</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>1:45 PM</b></span><span><b>8</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 4:33 PM</div><div class="rides"><div class="ride"><span class="go">#1</span><span><span class="horse">CAVENDISH</span> <span class="who">Entry 5285 &middot; Andressa Quadros</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 764</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019850&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2.1</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>2:15 PM</b></span><span><b>9</b> trips</span></div><div class="wx">Weather —</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#7</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Entry 5286 &middot; Andressa Quadros</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 799</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200021636&sid=200000045" target="_blank" rel="noopener">1.15m Training Jumper </a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>2:45 PM</b></span><span><b>4</b> trips</span></div><div class="wx">~78&deg;F &middot; Chance Showers And Thunderstorms &middot; 44% rain</div><div class="oog ok">Order of go set Oct 2, 4:34 PM</div><div class="rides"><div class="ride"><span class="go">#1</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Entry 5286 &middot; Andressa Quadros</span></span></div></div></div>
+    <h2 class="day-h2">Saturday, October 3</h2>
+<p class="lede">Five classes across <b>Tryon Stadium Ring 5</b> and <b>Ring 6</b> — and every order of go is set.</p>
+<div class="glance"><div class="gcard"><div class="gnum">5</div><div class="glabel">Classes</div></div><div class="gcard"><div class="gnum">6</div><div class="glabel">Rides</div></div><div class="gcard"><div class="gnum small">10:29 AM – 2:45 PM</div></div></div>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 4</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019734&sid=200000045" target="_blank" rel="noopener">FEI $70,000 CSI2* Grand Prix 220.2.1.2</a></h3></div><div class="sponsor">Sponsored by Core Specialty Insurance</div></div><div class="card-time"><div class="t">10:29 AM</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>55</b></span><span><span class="mlabel">Status</span><b>Completed</b></span></div><div class="oog">Order of go <b>set Oct 2, 2026 at 5:43 PM</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">#8</span><span class="ride-main"><span class="horse">KENTUCKY N</span><span class="rider">Wilton Porter</span></span><span class="entry">Entry 5287</span></div><div class="ride"><span class="go-circle">#36</span><span class="ride-main"><span class="horse">STERNMARKE 3</span><span class="rider">Wilton Porter</span></span><span class="entry">Entry 5288</span></div></article>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 756</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019653&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2.1</a></h3></div></div><div class="card-time"><div class="t">12:30 PM</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Ring 6</b></span><span><span class="mlabel">Trips</span><b>14</b></span><span><span class="mlabel">Status</span><b>Completed</b></span></div><div class="oog">Order of go <b>set Oct 2, 2026 at 4:34 PM</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">#4</span><span class="ride-main"><span class="horse">TENTACION LS LA SILLA</span><span class="rider">Miley Davidyan</span></span><span class="entry">Entry 5291</span></div></article>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 768</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019703&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m II2.1</a></h3></div></div><div class="card-time"><div class="t">1:45 PM</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>8</b></span><span><span class="mlabel">Status</span><b>Completed</b></span></div><div class="oog">Order of go <b>set Oct 2, 2026 at 4:33 PM</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">#1</span><span class="ride-main"><span class="horse">CAVENDISH</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 5285</span></div></article>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 764</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019850&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2.1</a></h3></div></div><div class="card-time"><div class="t">2:15 PM</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>9</b></span><span><span class="mlabel">Status</span><b>Completed</b></span></div><div class="oog">Order of go <b>set Oct 2, 2026 at 4:34 PM</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">#7</span><span class="ride-main"><span class="horse">LUPINA COLADA</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 5286</span></div></article>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 799</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200021636&sid=200000045" target="_blank" rel="noopener">1.15m Training Jumper </a></h3></div></div><div class="card-time"><div class="t">2:45 PM</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>4</b></span><span><span class="mlabel">Status</span><b>Completed</b></span></div><div class="oog">Order of go <b>set Oct 2, 2026 at 4:34 PM</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">#1</span><span class="ride-main"><span class="horse">LUPINA COLADA</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 5286</span></div></article>
   </section>
   <section class="panel" id="p-tomorrow" role="tabpanel">
-    <div class="strip"><span class="cell">3 classes</span><span class="cell">3 rides</span></div>
-<div class="card"><div class="cnum">Class 757</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019756&sid=200000045" target="_blank" rel="noopener">NAL Junior Jumper - 1.20m Classic II2b</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>TBD</b></span><span><b>11</b> trips</span></div><div class="wx">Weather —</div><div class="oog">Order of go not yet set</div><div class="rides"><div class="ride"><span class="go">—</span><span><span class="horse">TENTACION LS LA SILLA</span> <span class="who">Entry 5291 &middot; Miley Davidyan</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 761</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019800&sid=200000045" target="_blank" rel="noopener">NAL Amateur Jumper Classic 1.20m II2b</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>TBD</b></span><span><b>11</b> trips</span></div><div class="wx">Weather —</div><div class="oog">Order of go not yet set</div><div class="rides"><div class="ride"><span class="go">—</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Entry 5286 &middot; Andressa Quadros</span></span></div></div></div>
-<div class="card"><div class="cnum">Class 769</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019922&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m Classic II2b</a></h3><div class="meta"><span>Ring <b>Tryon Stadium Ring 5</b></span><span>Est. start <b>TBD</b></span><span><b>12</b> trips</span></div><div class="wx">Weather —</div><div class="oog">Order of go not yet set</div><div class="rides"><div class="ride"><span class="go">—</span><span><span class="horse">CAVENDISH</span> <span class="who">Entry 5285 &middot; Andressa Quadros</span></span></div></div></div>
+    <h2 class="day-h2">Sunday, October 4</h2>
+<p class="lede">Three classes across <b>Tryon Stadium Ring 5</b> — and orders of go are not yet set.</p>
+<div class="glance"><div class="gcard"><div class="gnum">3</div><div class="glabel">Classes</div></div><div class="gcard"><div class="gnum">3</div><div class="glabel">Rides</div></div><div class="gcard"><div class="gnum small"></div></div></div>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 757</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019756&sid=200000045" target="_blank" rel="noopener">NAL Junior Jumper - 1.20m Classic II2b</a></h3></div><div class="sponsor">Sponsored by Prestige</div></div><div class="card-time"><div class="t">TBD</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>11</b></span><span><span class="mlabel">Status</span><b>Not Started</b></span></div><div class="oog">Order of go <b>not yet set</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">TENTACION LS LA SILLA</span><span class="rider">Miley Davidyan</span></span><span class="entry">Entry 5291</span></div></article>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 761</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019800&sid=200000045" target="_blank" rel="noopener">NAL Amateur Jumper Classic 1.20m II2b</a></h3></div></div><div class="card-time"><div class="t">TBD</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>11</b></span><span><span class="mlabel">Status</span><b>Not Started</b></span></div><div class="oog">Order of go <b>not yet set</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">LUPINA COLADA</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 5286</span></div></article>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 769</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019922&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m Classic II2b</a></h3></div></div><div class="card-time"><div class="t">TBD</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>Tryon Stadium Ring 5</b></span><span><span class="mlabel">Trips</span><b>12</b></span><span><span class="mlabel">Status</span><b>Not Started</b></span></div><div class="oog">Order of go <b>not yet set</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">CAVENDISH</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 5285</span></div></article>
   </section>
   <section class="panel" id="p-results" role="tabpanel">
-    <div class="strip"><span class="cell">14 classes &middot; 19 rides</span><span class="cell money">Wilton Porter $1,470 &middot; Miley Davidyan $280 &middot; Andressa Quadros $150</span><span class="cell">Week total $1,900</span></div>
-<div class="dayhead">Saturday, October 3<span class="dsub">5 classes</span></div>
-<div class="card"><div class="cnum">Class 4</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019734&sid=200000045" target="_blank" rel="noopener">FEI $70,000 CSI2* Grand Prix 220.2.1.2</a></h3><div class="res-line"><span class="place">11th</span><span><span class="horse">STERNMARKE 3</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 4 faults, 70.97s</div></span><span class="prize">$700</span></div><div class="res-line"><span class="place">34th</span><span><span class="horse">KENTUCKY N</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 8 faults, 74.56s</div></span></div></div>
-<div class="card"><div class="cnum">Class 756</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019653&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2.1</a></h3><div class="res-line"><span class="place p1">1st</span><span><span class="horse">TENTACION LS LA SILLA</span> <span class="who">Miley Davidyan</span><div class="res-detail">Round 1: 0 faults, 55.78s</div></span><span class="prize">$140</span></div></div>
-<div class="card"><div class="cnum">Class 764</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019850&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2.1</a></h3><div class="res-line"><span class="place">—</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Andressa Quadros</span><div class="res-detail">Round 1: 4 faults, 0s</div></span></div></div>
-<div class="card"><div class="cnum">Class 768</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019703&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m II2.1</a></h3><div class="res-line"><span class="place">5th</span><span><span class="horse">CAVENDISH</span> <span class="who">Andressa Quadros</span><div class="res-detail">Round 1: 4 faults, 64.023s</div></span><span class="prize">$70</span></div></div>
-<div class="card"><div class="cnum">Class 799</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200021636&sid=200000045" target="_blank" rel="noopener">1.15m Training Jumper </a></h3><div class="res-line"><span class="place p1">1st</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Andressa Quadros</span><div class="res-detail">Round 1: 0 faults, 74.93s</div></span></div></div>
-<div class="dayhead">Friday, October 2<span class="dsub">3 classes</span></div>
-<div class="card"><div class="cnum">Class 755</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019997&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2b</a></h3><div class="res-line"><span class="place p1">1st</span><span><span class="horse">TENTACION LS LA SILLA</span> <span class="who">Miley Davidyan</span><div class="res-detail">Round 1: 0 faults, 69.008s &middot; Jump-off: 0 faults, 46.534s</div></span><span class="prize">$140</span></div></div>
-<div class="card"><div class="cnum">Class 763</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019649&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2b</a></h3><div class="res-line"><span class="place p3">3rd</span><span><span class="horse">CAVENDISH</span> <span class="who">Andressa Quadros</span><div class="res-detail">Round 1: 0 faults, 67.085s &middot; Jump-off: 4 faults, 32.813s</div></span><span class="prize">$80</span></div><div class="res-line"><span class="place">7th</span><span><span class="horse">LUPINA COLADA</span> <span class="who">Andressa Quadros</span><div class="res-detail">Round 1: 0 faults, 70.319s &middot; Jump-off: 4 faults, 40.178s</div></span></div></div>
-<div class="card"><div class="cnum">Class 815</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019777&sid=200000045" target="_blank" rel="noopener">$2,000 Open Jumper - 1.30m Stake II2b</a></h3><div class="res-line"><span class="place">6th</span><span><span class="horse">CURIOSO VAN MAARLE Z</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 0 faults, 70.944s &middot; Jump-off: 0 faults, 43.382s</div></span><span class="prize">$170</span></div></div>
-<div class="dayhead">Thursday, October 1<span class="dsub">2 classes</span></div>
-<div class="card"><div class="cnum">Class 2</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019931&sid=200000045" target="_blank" rel="noopener">FEI $32,000 Welcome Stake 220.2.1.2</a></h3><div class="res-line"><span class="place">23rd</span><span><span class="horse">STERNMARKE 3</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 4 faults, 72.53s</div></span></div><div class="res-line"><span class="place">34th</span><span><span class="horse">KENTUCKY N</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 4 faults, 75.28s</div></span></div></div>
-<div class="card"><div class="cnum">Class 780</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019999&sid=200000045" target="_blank" rel="noopener">Young Jumper - 1.20m II2b</a></h3><div class="res-line"><span class="place">8th</span><span><span class="horse">OSCAR VG</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 4 faults, 75.134s</div></span></div></div>
-<div class="dayhead">Wednesday, September 30<span class="dsub">4 classes</span></div>
-<div class="card"><div class="cnum">Class 1</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019996&sid=200000045" target="_blank" rel="noopener">FEI $6,000 1.40M Two Phase 222.1.4.3</a></h3><div class="res-line"><span class="place">4th</span><span><span class="horse">STERNMARKE 3</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 0 faults, 45.26s &middot; Jump-off: 0 faults, 35.58s</div></span><span class="prize">$600</span></div><div class="res-line"><span class="place">16th</span><span><span class="horse">KENTUCKY N</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 0 faults, 46.95s &middot; Jump-off: 0 faults, 47.54s</div></span></div></div>
-<div class="card"><div class="cnum">Class 779</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019878&sid=200000045" target="_blank" rel="noopener">Young Jumper - 1.20m II2b</a></h3><div class="res-line"><span class="place">—</span><span><span class="horse">OSCAR VG</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 4 faults, 77.064s</div></span></div></div>
-<div class="card"><div class="cnum">Class 809</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019911&sid=200000045" target="_blank" rel="noopener">Open Jumper - 1.20m II2b</a></h3><div class="res-line"><span class="place">8th</span><span><span class="horse">CURIOSO VAN MAARLE Z</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 0 faults, 79.77s &middot; Jump-off: 0 faults, 36.328s</div></span></div><div class="res-line"><span class="place">—</span><span><span class="horse">TENTACION LS LA SILLA</span> <span class="who">Miley Davidyan</span><div class="res-detail">Round 1: 4 faults, 77.577s</div></span></div></div>
-<div class="card"><div class="cnum">Class 813</div><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019798&sid=200000045" target="_blank" rel="noopener">Open Jumper - 1.30m II2b</a></h3><div class="res-line"><span class="place">—</span><span><span class="horse">CURIOSO VAN MAARLE Z</span> <span class="who">Wilton Porter</span><div class="res-detail">Round 1: 0 faults</div></span></div></div>
-<div class="note">Results through Saturday, October 3</div>
+    <h2 class="day-h2">Weekly Results</h2>
+<p class="lede">Completed classes from 2026 Tryon Fall 3 #332404 / CSI2* for rides trained by Wilton Porter.</p>
+<div class="res-summary"><span class="rs-count">14 classes &nbsp;·&nbsp; 19 rides</span><span class="rs-div"></span><span class="rs-riders"><span>Wilton Porter <b>$1,470</b></span><span>Andressa Quadros <b>$150</b></span><span>Miley Davidyan <b>$280</b></span></span><span class="rs-div"></span><span class="rs-total">Week total <b>$1,900</b></span></div>
+<div class="asof">As of 4:04 PM EDT on Saturday, October 3.</div>
+<div class="dayhead"><h3>Saturday, October 3</h3><span class="dsub">5 classes</span></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 4</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019734&sid=200000045" target="_blank" rel="noopener">FEI $70,000 CSI2* Grand Prix 220.2.1.2</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">11th</span><span class="res-main"><span class="horse">STERNMARKE 3</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 4 faults, 70.97s</span></span><span class="prize">$700</span></div><div class="res-row"><span class="place">34th</span><span class="res-main"><span class="horse">KENTUCKY N</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 8 faults, 74.56s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 756</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019653&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2.1</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place p1">1st</span><span class="res-main"><span class="horse">TENTACION LS LA SILLA</span><span class="rider">Miley Davidyan</span><span class="res-detail">Round 1: 0 faults, 55.78s</span></span><span class="prize">$140</span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 764</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019850&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2.1</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">—</span><span class="res-main"><span class="horse">LUPINA COLADA</span><span class="rider">Andressa Quadros</span><span class="res-detail">Round 1: 4 faults, 0s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 768</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019703&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.40m II2.1</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">5th</span><span class="res-main"><span class="horse">CAVENDISH</span><span class="rider">Andressa Quadros</span><span class="res-detail">Round 1: 4 faults, 64.023s</span></span><span class="prize">$70</span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 799</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200021636&sid=200000045" target="_blank" rel="noopener">1.15m Training Jumper </a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place p1">1st</span><span class="res-main"><span class="horse">LUPINA COLADA</span><span class="rider">Andressa Quadros</span><span class="res-detail">Round 1: 0 faults, 74.93s</span></span></div></div>
+<div class="dayhead"><h3>Friday, October 2</h3><span class="dsub">3 classes</span></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 755</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019997&sid=200000045" target="_blank" rel="noopener">Junior Jumper - 1.20m II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place p1">1st</span><span class="res-main"><span class="horse">TENTACION LS LA SILLA</span><span class="rider">Miley Davidyan</span><span class="res-detail">Round 1: 0 faults, 69.008s &nbsp;·&nbsp; Jump-off: 0 faults, 46.534s</span></span><span class="prize">$140</span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 763</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019649&sid=200000045" target="_blank" rel="noopener">Junior/Amateur Jumper - 1.30m II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place p3">3rd</span><span class="res-main"><span class="horse">CAVENDISH</span><span class="rider">Andressa Quadros</span><span class="res-detail">Round 1: 0 faults, 67.085s &nbsp;·&nbsp; Jump-off: 4 faults, 32.813s</span></span><span class="prize">$80</span></div><div class="res-row"><span class="place">7th</span><span class="res-main"><span class="horse">LUPINA COLADA</span><span class="rider">Andressa Quadros</span><span class="res-detail">Round 1: 0 faults, 70.319s &nbsp;·&nbsp; Jump-off: 4 faults, 40.178s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 815</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019777&sid=200000045" target="_blank" rel="noopener">$2,000 Open Jumper - 1.30m Stake II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">6th</span><span class="res-main"><span class="horse">CURIOSO VAN MAARLE Z</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 0 faults, 70.944s &nbsp;·&nbsp; Jump-off: 0 faults, 43.382s</span></span><span class="prize">$170</span></div></div>
+<div class="dayhead"><h3>Thursday, October 1</h3><span class="dsub">2 classes</span></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 2</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019931&sid=200000045" target="_blank" rel="noopener">FEI $32,000 Welcome Stake 220.2.1.2</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">23rd</span><span class="res-main"><span class="horse">STERNMARKE 3</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 4 faults, 72.53s</span></span></div><div class="res-row"><span class="place">34th</span><span class="res-main"><span class="horse">KENTUCKY N</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 4 faults, 75.28s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 780</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019999&sid=200000045" target="_blank" rel="noopener">Young Jumper - 1.20m II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">8th</span><span class="res-main"><span class="horse">OSCAR VG</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 4 faults, 75.134s</span></span></div></div>
+<div class="dayhead"><h3>Wednesday, September 30</h3><span class="dsub">4 classes</span></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 1</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019996&sid=200000045" target="_blank" rel="noopener">FEI $6,000 1.40M Two Phase 222.1.4.3</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">4th</span><span class="res-main"><span class="horse">STERNMARKE 3</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 0 faults, 45.26s &nbsp;·&nbsp; Jump-off: 0 faults, 35.58s</span></span><span class="prize">$600</span></div><div class="res-row"><span class="place">16th</span><span class="res-main"><span class="horse">KENTUCKY N</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 0 faults, 46.95s &nbsp;·&nbsp; Jump-off: 0 faults, 47.54s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 779</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019878&sid=200000045" target="_blank" rel="noopener">Young Jumper - 1.20m II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">—</span><span class="res-main"><span class="horse">OSCAR VG</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 4 faults, 77.064s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 809</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019911&sid=200000045" target="_blank" rel="noopener">Open Jumper - 1.20m II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">8th</span><span class="res-main"><span class="horse">CURIOSO VAN MAARLE Z</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 0 faults, 79.77s &nbsp;·&nbsp; Jump-off: 0 faults, 36.328s</span></span></div><div class="res-row"><span class="place">—</span><span class="res-main"><span class="horse">TENTACION LS LA SILLA</span><span class="rider">Miley Davidyan</span><span class="res-detail">Round 1: 4 faults, 77.577s</span></span></div></div>
+<div class="card"><div class="title-row"><span class="class-pill">Class 813</span><h3><a href="https://tryon.showgroundslive.com/classes/detail?cid=200019798&sid=200000045" target="_blank" rel="noopener">Open Jumper - 1.30m II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">—</span><span class="res-main"><span class="horse">CURIOSO VAN MAARLE Z</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 0 faults</span></span></div></div>
   </section>
 
-  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-03 15:49 EDT</footer>
+  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-03 16:04 EDT</footer>
 </main>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn){
