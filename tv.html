@@ -160,7 +160,7 @@
   }
 </style>
 <meta http-equiv="refresh" content="300">
-<style>body{zoom:1.22;padding:26px 46px 48px}html,body{overflow-x:hidden}</style>
+<style>body{zoom:1.22;padding:26px 46px 48px;line-height:1.38}html,body{overflow-x:hidden}.hero-inner{padding:20px 20px 14px}.hero h1{font-size:30px}.hero-cols{margin-top:12px;gap:32px}.updated{margin-top:12px;padding:5px 14px}main{padding:0 8px 16px}.tabs{margin:12px 0 4px}.tab{padding:7px 18px}.day-h2{font-size:28px;margin:12px 0 6px}.lede{margin-bottom:10px}.glance{gap:10px;margin-bottom:12px}.gcard{padding:9px 14px}.card{padding:13px 18px;margin-bottom:12px}.card hr{margin:10px 0}.oog{margin-top:6px}.wx{padding:8px 14px;margin-top:10px}.wx-icon{width:38px;height:38px}.rides-head{margin:12px 0 2px}.ride{padding:7px 0}.go-circle{width:38px;height:38px}.empty{padding:24px 16px}footer{padding:14px 0 4px}.res-summary{margin:10px 0 6px;padding:12px 18px}.dayhead{margin:16px 0 8px}.pend-row,.res-row{padding:8px 0}</style>
 </head>
 <body>
 <header class="hero">
@@ -174,7 +174,7 @@
     </div>
     <div><span class="updated" id="refresh-pill" title="Tap to refresh" style="cursor:pointer">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      Last updated October 29, 2026 at 10:08 AM EDT
+      Last updated October 29, 2026 at 10:15 AM EDT
     </span></div>
   </div>
 </header>
@@ -209,10 +209,10 @@
     <h2 class="day-h2">Weekly Results</h2>
 <p class="lede">Completed classes from 2026 ESP Fall Finale (#6963) for rides trained by Wilton Porter.</p>
 <div class="res-summary"><span class="rs-count">0 classes &nbsp;·&nbsp; 0 rides</span><span class="rs-div"></span><span class="rs-riders"></span><span class="rs-div"></span><span class="rs-total">Week total <b>$0</b></span></div>
-<div class="asof">As of 10:08 AM EDT on Thursday, October 29.</div>
+<div class="asof">As of 10:15 AM EDT on Thursday, October 29.</div>
   </section>
 
-  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-29 10:08 EDT</footer>
+  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-29 10:15 EDT</footer>
 </main>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn){
@@ -235,7 +235,7 @@ document.querySelectorAll('.tab').forEach(function(btn){
 </script>
 <script>
 (function(){
-  var TAB_MS = 40000;      // time per tab
+  var TAB_MS = 30000;      // time per tab
   var HOLD_MS = 3000;      // pause at top before scrolling
   var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
   if (!tabs.length) return;
@@ -246,7 +246,7 @@ document.querySelectorAll('.tab').forEach(function(btn){
   // version off at the bottom (Mikhail, 2026-10-29).
   function startScroll(){
     var y = 0, lastY = -1, stuck = 0;
-    var step = Math.max(3, Math.round(window.innerHeight / 425));
+    var step = Math.max(3, Math.round(window.innerHeight / 350));
     scroller = setInterval(function(){
       y += step;
       window.scrollTo(0, y);
