@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sleepy P Ranch">
+<title>Sleepy P Ranch Show Schedule — TV</title>
+<style>
+  :root{
+    --green:#17352a; --green-deep:#0f241c; --cream:#f7f2e6; --card:#fffdf6;
+    --gold:#c19a3f; --gold-deep:#8a6d1f; --gold-soft:#e8d9ae; --pill-bg:#f9f1dd;
+    --ink:#2b2b26; --muted:#6f6a5c; --line:#e5dcc4; --line-soft:#efe8d3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:Georgia,'Times New Roman',serif; background:var(--cream); color:var(--ink); line-height:1.5}
+  .sans{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; color:#fff; overflow:hidden; background:var(--green-deep)}
+  .hero .photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top}
+  .hero .shade{position:absolute; inset:0;
+    background:linear-gradient(100deg, rgba(10,20,15,.80) 0%, rgba(10,20,15,.48) 55%, rgba(10,20,15,.28) 100%)}
+  .hero-inner{position:relative; max-width:920px; margin:0 auto; padding:56px 20px 38px}
+  .hero h1{font-size:clamp(26px,4vw,36px); font-weight:400; line-height:1.05; letter-spacing:.01em; color:#fffdf6}
+  .hero h1 .sched{display:block; font-style:italic; font-size:.48em; color:var(--gold-soft); margin-top:6px; letter-spacing:.02em}
+  .hero-cols{display:flex; gap:52px; flex-wrap:wrap; margin-top:24px}
+  .eyebrow{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700; letter-spacing:.22em;
+    text-transform:uppercase; color:#fff}
+  .hval{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:15px; color:#fff; margin-top:5px}
+  .updated{display:inline-flex; align-items:center; gap:8px; margin-top:22px; background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.38); border-radius:999px; padding:7px 16px;
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:#fff}
+  .updated svg{width:14px; height:14px; stroke:#fff; fill:none; stroke-width:2}
+
+  /* ---------- layout / tabs ---------- */
+  main{max-width:920px; margin:0 auto; padding:0 16px 64px}
+  .tabs{display:flex; gap:10px; justify-content:center; margin:26px 0 8px; flex-wrap:wrap}
+  .tab{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; padding:10px 24px; border-radius:999px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer}
+  .tab b{font-weight:700}
+  .tab[aria-selected="true"]{background:var(--green); border-color:var(--green); color:#fff}
+  .panel{display:none}
+  .panel.active{display:block}
+
+  /* ---------- day panel ---------- */
+  .day-h2{font-size:clamp(26px,4vw,36px); font-weight:400; margin:26px 0 10px}
+  .lede{color:var(--muted); font-size:16px; max-width:660px; margin-bottom:20px}
+  .lede b{color:var(--ink); font-weight:700}
+  .glance{display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:12px; margin-bottom:24px}
+  .gcard{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 18px}
+  .gnum{font-size:27px; line-height:1.1}
+  .gnum.small{font-size:21px}
+  .glabel{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); margin-top:5px}
+
+  /* ---------- class card ---------- */
+  .card{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--gold);
+    border-radius:12px; padding:20px 22px; margin:0 0 18px; box-shadow:0 2px 8px rgba(23,53,42,.05)}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:18px}
+  .title-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .class-pill{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); background:var(--pill-bg);
+    border:1px solid #d9b96a; border-radius:6px; padding:4px 10px; white-space:nowrap}
+  .card h3{font-size:22px; font-weight:700; line-height:1.25}
+  .card h3 a{color:var(--ink); text-decoration:none}
+  .card h3 a:hover{text-decoration:underline}
+  .card-time{text-align:right; white-space:nowrap; flex:none}
+  .card-time .t{font-size:24px}
+  .card-time .tlbl{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:10.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); margin-top:3px}
+  .sponsor{font-size:13.5px; color:var(--muted); font-style:italic; margin-top:6px}
+  .card hr{border:none; border-top:1px solid var(--line-soft); margin:15px 0}
+  .meta{display:flex; flex-wrap:wrap; gap:8px 30px; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13.5px}
+  .mlabel{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-right:8px}
+  .meta b{font-weight:700; color:var(--ink)}
+  .oog{font-size:13.5px; color:var(--muted); margin-top:10px}
+  .oog b{color:var(--ink); font-weight:700}
+
+  /* ---------- weather ---------- */
+  .wx{display:flex; align-items:center; gap:14px; border:1px solid var(--line); border-radius:12px;
+    background:#fbf7ea; padding:12px 16px; margin-top:14px}
+  a.wx{color:inherit; text-decoration:none; cursor:pointer}
+  a.wx:hover{border-color:var(--gold)}
+  .wx-icon{width:46px; height:46px; flex:none; border:1.5px solid var(--gold); border-radius:11px;
+    display:flex; align-items:center; justify-content:center; background:var(--card)}
+  .wx-icon svg{width:24px; height:24px; stroke:var(--gold-deep); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+  .wx-temp{font-size:30px; line-height:1}
+  .wx-cond{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+  .wx-cond b{display:block; font-size:15px; color:var(--ink)}
+  .wx-cond small{font-size:12.5px; color:var(--muted)}
+  .wx-at{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:10.5px;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--muted); white-space:nowrap}
+
+  /* ---------- rides ---------- */
+  .rides-head{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); margin:18px 0 4px}
+  .ride{display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px dashed var(--line-soft)}
+  .ride:last-child{border-bottom:none}
+  .go-circle{width:46px; height:46px; flex:none; border-radius:50%; background:var(--green); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:15px}
+  .ride-main .horse{font-weight:700; font-size:16px}
+  .ride-main .rider{display:block; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-top:1px}
+  .entry{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); white-space:nowrap}
+
+  /* ---------- weekly results ---------- */
+  .res-summary{background:var(--green); color:#fff; border-radius:12px; padding:16px 22px;
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin:18px 0 10px}
+  .rs-count{font-size:19px; font-style:italic; white-space:nowrap}
+  .rs-div{width:1px; align-self:stretch; background:rgba(255,255,255,.25)}
+  .rs-riders{display:flex; gap:22px; flex-wrap:wrap; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px}
+  .rs-riders b{font-weight:700}
+  .rs-total{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; white-space:nowrap}
+  .rs-total b{font-weight:700}
+  .asof{font-size:13px; color:var(--muted); margin-bottom:4px}
+  .dayhead{display:flex; align-items:baseline; gap:12px; margin:26px 0 12px}
+  .dayhead h3{font-size:22px; font-weight:700}
+  .dayhead .dsub{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted)}
+  .pend-label{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+  .pend-row{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px dashed var(--line-soft)}
+  .pend-row:last-child{border-bottom:none}
+  .pend-row .cname{font-weight:700; font-size:15.5px}
+  .pend-row .cname a{color:var(--ink); text-decoration:none}
+  .pend-row .cname a:hover{text-decoration:underline}
+  .pend-status{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--muted); white-space:nowrap}
+  .title-row .pend-status{font-size:12px; letter-spacing:.08em; text-transform:uppercase}
+  .res-row{display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px dashed var(--line-soft)}
+  .res-row:last-child{border-bottom:none}
+  .place{flex:none; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; min-width:56px;
+    text-align:center; border-radius:8px; padding:4px 8px; background:#f1ebda; color:var(--green); font-size:13px}
+  .place.p1{background:linear-gradient(135deg,#d4af37,#f4e3a1); color:#4a3a08}
+  .place.p2{background:linear-gradient(135deg,#aeb4b9,#e8ebee); color:#3c4147}
+  .place.p3{background:linear-gradient(135deg,#b07a3f,#e8c39a); color:#4a2c10}
+  .res-main .horse{font-weight:700; font-size:15.5px}
+  .res-main .rider{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-left:8px}
+  .res-detail{display:block; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-top:2px}
+  .prize{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700;
+    color:var(--ink); white-space:nowrap}
+
+  .empty{text-align:center; padding:48px 20px; color:var(--muted); font-style:italic}
+  footer{text-align:center; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; color:var(--muted); padding:28px 0 8px}
+
+  @media (max-width:560px){
+    .hero-inner{padding:40px 18px 28px}
+    .hero-cols{gap:24px}
+    .card{padding:16px}
+    .card-top{flex-direction:column}
+    .card-time{text-align:left}
+    .glance{grid-template-columns:1fr 1fr}
+    .glance .gcard:last-child{grid-column:1 / -1}
+    .wx-at{display:none}
+    .res-summary{gap:12px}
+    .rs-div{display:none}
+    .rs-total{margin-left:0}
+    .ride{flex-wrap:wrap}
+  }
+</style>
+<meta http-equiv="refresh" content="300">
+<style>body{zoom:1.3}html,body{overflow-x:hidden}</style>
+</head>
+<body>
+<header class="hero">
+  <img class="photo" src="assets/header.jpg" alt="Show jumping at Wellington International">
+  <div class="shade"></div>
+  <div class="hero-inner">
+    <h1>Sleepy P Ranch<br><span class="sched">Show Schedule</span></h1>
+    <div class="hero-cols">
+      <div><div class="eyebrow">Venue</div><div class="hval">Wellington International</div></div>
+      <div><div class="eyebrow">Show week</div><div class="hval">Oct 29 – Nov 1, 2026</div></div>
+    </div>
+    <div><span class="updated" id="refresh-pill" title="Tap to refresh" style="cursor:pointer">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Last updated October 29, 2026 at 9:50 AM EDT
+    </span></div>
+  </div>
+</header>
+<main>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-panel="p-day-20261029"><b>Thursday</b> Oct 29</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-day-20261030"><b>Friday</b> Oct 30</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-day-20261031"><b>Saturday</b> Oct 31</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-day-20261101"><b>Sunday</b> Nov 1</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-results">Weekly Results</button>
+  </nav>
+
+  <section class="panel active" id="p-day-20261029" role="tabpanel">
+    <h2 class="day-h2">Thursday, October 29</h2><div class="empty">No rides for Wilton Porter on Thursday.</div>
+  </section>
+  <section class="panel" id="p-day-20261030" role="tabpanel">
+    <h2 class="day-h2">Friday, October 30</h2>
+<p class="lede">One class across <b>International Ring</b> — and orders of go are not yet set.</p>
+<div class="glance"><div class="gcard"><div class="gnum">1</div><div class="glabel">Classes</div></div><div class="gcard"><div class="gnum">2</div><div class="glabel">Rides</div></div><div class="gcard"><div class="gnum small"></div></div></div>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 770</span><h3><a href="https://www.wellingtoninternational.com/showgrounds/show-schedule/?sid=200000076" target="_blank" rel="noopener">1.30m Open Jumper II2d</a></h3></div></div><div class="card-time"><div class="t">TBD</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>International Ring</b></span><span><span class="mlabel">Trips</span><b>19</b></span><span><span class="mlabel">Status</span><b>Not Started</b></span></div><div class="oog">Order of go <b>not yet set</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">CAVENDISH</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 10501</span></div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">KENTUCKY N</span><span class="rider">Wilton Porter</span></span><span class="entry">Entry 10499</span></div></article>
+  </section>
+  <section class="panel" id="p-day-20261031" role="tabpanel">
+    <h2 class="day-h2">Saturday, October 31</h2><div class="empty">No rides for Wilton Porter on Saturday.</div>
+  </section>
+  <section class="panel" id="p-day-20261101" role="tabpanel">
+    <h2 class="day-h2">Sunday, November 1</h2>
+<p class="lede">One class across <b>International Ring</b> — and orders of go are not yet set.</p>
+<div class="glance"><div class="gcard"><div class="gnum">1</div><div class="glabel">Classes</div></div><div class="gcard"><div class="gnum">2</div><div class="glabel">Rides</div></div><div class="gcard"><div class="gnum small"></div></div></div>
+<article class="card class-card"><div class="card-top"><div class="card-main"><div class="title-row"><span class="class-pill">Class 806</span><h3><a href="https://www.wellingtoninternational.com/showgrounds/show-schedule/?sid=200000076" target="_blank" rel="noopener">$24,999 ProElite Grand Prix</a></h3></div></div><div class="card-time"><div class="t">TBD</div><div class="tlbl">Est. start</div></div></div><hr><div class="meta"><span><span class="mlabel">Ring</span><b>International Ring</b></span><span><span class="mlabel">Trips</span><b>13</b></span><span><span class="mlabel">Status</span><b>Not Started</b></span></div><div class="oog">Order of go <b>not yet set</b>.</div><div class="rides-head">Rides — Order of go</div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">KENTUCKY N</span><span class="rider">Wilton Porter</span></span><span class="entry">Entry 10499</span></div><div class="ride"><span class="go-circle">—</span><span class="ride-main"><span class="horse">CAVENDISH</span><span class="rider">Andressa Quadros</span></span><span class="entry">Entry 10501</span></div></article>
+  </section>
+  <section class="panel" id="p-results" role="tabpanel">
+    <h2 class="day-h2">Weekly Results</h2>
+<p class="lede">Completed classes from 2026 ESP Fall Finale (#6963) for rides trained by Wilton Porter.</p>
+<div class="res-summary"><span class="rs-count">0 classes &nbsp;·&nbsp; 0 rides</span><span class="rs-div"></span><span class="rs-riders"></span><span class="rs-div"></span><span class="rs-total">Week total <b>$0</b></span></div>
+<div class="asof">As of 9:50 AM EDT on Thursday, October 29.</div>
+  </section>
+
+  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-10-29 09:50 EDT</footer>
+</main>
+<script>
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(b){ b.setAttribute('aria-selected','false'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.setAttribute('aria-selected','true');
+    document.getElementById(btn.dataset.panel).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+// Home-screen web apps may be restored from memory without re-fetching:
+// reload once when that happens. (No time-based auto-reload: the rebuilt
+// page can carry the same timestamp, which caused a reload loop.)
+(function(){
+  window.addEventListener('pageshow', function(e){ if (e && e.persisted) location.reload(); });
+  var pill = document.getElementById('refresh-pill');
+  if (pill) pill.addEventListener('click', function(){ location.reload(); });
+})();
+</script>
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  if (tabs.length < 2) return;
+  var i = 0;
+  setInterval(function(){
+    i = (i + 1) % tabs.length;
+    tabs[i].click();
+    window.scrollTo(0, 0);
+  }, 20000);
+})();
+</script>
+</body>
+</html>
