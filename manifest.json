@@ -1,0 +1,20 @@
+{
+ "name": "Sleepy P Ranch Show Schedule",
+ "short_name": "Sleepy P Ranch",
+ "start_url": ".",
+ "display": "standalone",
+ "background_color": "#0f241c",
+ "theme_color": "#0f241c",
+ "icons": [
+  {
+   "src": "sleepy-p-icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "sleepy-p-icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}
