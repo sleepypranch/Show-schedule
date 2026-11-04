@@ -145,6 +145,16 @@
     color:var(--ink); white-space:nowrap}
 
   .empty{text-align:center; padding:48px 20px; color:var(--muted); font-style:italic}
+
+  /* ---------- push alerts ---------- */
+  .alerts-bar{text-align:center; margin:30px 0 2px}
+  .alerts-btn{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14.5px; font-weight:600;
+    padding:12px 26px; border-radius:999px; border:1px solid var(--green); background:var(--green);
+    color:#fff; cursor:pointer}
+  .alerts-btn:hover{background:var(--green-deep)}
+  .alerts-note{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--muted);
+    max-width:520px; margin:10px auto 0; line-height:1.45}
+
   footer{text-align:center; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; color:var(--muted); padding:28px 0 8px}
 
   @media (max-width:560px){
@@ -175,7 +185,7 @@
     </div>
     <div><span class="updated" id="refresh-pill" title="Tap to refresh" style="cursor:pointer">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      Last updated November 4, 2026 at 9:50 AM EDT
+      Last updated November 4, 2026 at 10:10 AM EDT
     </span></div>
   </div>
 </header>
@@ -219,10 +229,52 @@
     <h2 class="day-h2">Weekly Results</h2>
 <p class="lede">Completed classes from 2026 ESP November (#7129) for rides trained by Wilton Porter.</p>
 <div class="res-summary"><span class="rs-count">0 classes &nbsp;·&nbsp; 0 rides</span><span class="rs-div"></span><span class="rs-riders"></span><span class="rs-div"></span><span class="rs-total">Week total <b>$0</b></span></div>
-<div class="asof">As of 9:50 AM EDT on Wednesday, November 4.</div>
+<div class="asof">As of 10:10 AM EDT on Wednesday, November 4.</div>
   </section>
 
-  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-11-04 09:50 EDT</footer>
+  <div class="alerts-bar">
+  <button id="push-btn" class="alerts-btn" type="button">Get class change alerts</button>
+  <p class="alerts-note" id="push-note"></p>
+</div>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+(function(){
+  var btn = document.getElementById('push-btn');
+  var note = document.getElementById('push-note');
+  function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+  function standalone(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+  OneSignalDeferred.push(async function(OneSignal){
+    await OneSignal.init({
+      appId: "6e5b3651-2f8d-4103-a349-57dfd4ade8ff",
+      serviceWorkerPath: "OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/Show-schedule/" }
+    });
+    function refresh(){
+      if (OneSignal.User.PushSubscription.optedIn) {
+        btn.textContent = "Class alerts on — tap to turn off";
+        note.textContent = "You'll get a push when classes, start times, orders of go, or results change.";
+      } else {
+        btn.textContent = "Get class change alerts";
+        note.textContent = (window.Notification && Notification.permission === 'denied')
+          ? "Notifications are blocked for this site — enable them in your browser settings, then tap again." : "";
+      }
+    }
+    OneSignal.User.PushSubscription.addEventListener("change", refresh);
+    refresh();
+    btn.addEventListener('click', async function(){
+      if (isIOS() && !standalone()) {
+        note.textContent = "On iPhone: tap Share, then \u201cAdd to Home Screen\u201d, open the Sleepy P app from your home screen, and tap this button again to allow alerts.";
+        return;
+      }
+      if (OneSignal.User.PushSubscription.optedIn) { await OneSignal.User.PushSubscription.optOut(); }
+      else { await OneSignal.User.PushSubscription.optIn(); }
+      refresh();
+    });
+  });
+})();
+</script>
+  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-11-04 10:10 EDT</footer>
 </main>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn){
