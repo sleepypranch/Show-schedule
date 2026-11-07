@@ -10,6 +10,9 @@
 <link rel="apple-touch-icon" href="sleepy-p-icon.png">
 <link rel="icon" type="image/png" href="sleepy-p-icon.png">
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Questrial&family=Inter:wght@300;400;500&display=swap">
 <title>Sleepy P Ranch Show Schedule — TV</title>
 <style>
   :root{
@@ -20,10 +23,14 @@
     --pill-line:#b7cbbf; --tab-line:#d8d1c3; --row-line:#f0ebe0;
     --ink:#141414; --black:#0b0b0b; --muted:#7a746a; --muted-2:#5f5a52;
     --line:#e2dccf; --line-soft:#eee8dc;
+    /* Fonts matched to sleepyp.com/schedule 2026-11-07 (Mikhail's word):
+       Inter for text, Questrial for headings and labels. */
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-disp:'Questrial','Century Gothic',system-ui,sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0}
-  body{font-family:Georgia,'Times New Roman',serif; background:var(--cream); color:var(--ink); line-height:1.5}
-  .sans{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+  body{font-family:var(--font-body); background:var(--cream); color:var(--ink); line-height:1.5}
+  .sans{font-family:var(--font-body)}
 
   /* ---------- hero ---------- */
   .hero{position:relative; color:#fff; overflow:hidden; background:var(--green-deep)}
@@ -34,33 +41,33 @@
   .hero h1{font-size:clamp(26px,4vw,36px); font-weight:400; line-height:1.05; letter-spacing:.01em; color:#fffdf9}
   .hero h1 .sched{display:block; font-style:italic; font-size:.48em; color:var(--gold-soft); margin-top:6px; letter-spacing:.02em}
   .hero-cols{display:flex; gap:52px; flex-wrap:wrap; margin-top:24px}
-  .eyebrow{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700; letter-spacing:.22em;
+  .eyebrow{font-family:var(--font-disp); font-size:11px; font-weight:400; letter-spacing:.22em;
     text-transform:uppercase; color:#fff}
-  .hval{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:15px; color:#fff; margin-top:5px}
+  .hval{font-family:var(--font-body); font-weight:500; font-size:15px; color:#fff; margin-top:5px}
   .updated{display:inline-flex; align-items:center; gap:8px; margin-top:22px; background:rgba(255,255,255,.14);
     border:1px solid rgba(255,255,255,.38); border-radius:999px; padding:7px 16px;
-    font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:#fff}
+    font-family:var(--font-body); font-size:13px; color:#fff}
   .updated svg{width:14px; height:14px; stroke:#fff; fill:none; stroke-width:2}
 
   /* ---------- layout / tabs ---------- */
   main{max-width:920px; margin:0 auto; padding:0 16px 64px}
   .tabs{display:flex; gap:10px; justify-content:center; margin:26px 0 8px; flex-wrap:wrap}
-  .tab{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; padding:10px 24px; border-radius:999px;
+  .tab{font-family:var(--font-body); font-size:14px; padding:10px 24px; border-radius:999px;
     border:1px solid var(--tab-line); background:var(--card); color:var(--ink); cursor:pointer}
-  .tab b{font-weight:700}
+  .tab b{font-weight:500}
   .tab[aria-selected="true"]{background:var(--black); border-color:var(--black); color:#fff}
   .panel{display:none}
   .panel.active{display:block}
 
   /* ---------- day panel ---------- */
-  .day-h2{font-size:clamp(26px,4vw,36px); font-weight:400; margin:26px 0 10px; color:var(--black)}
+  .day-h2{font-family:var(--font-disp); font-size:clamp(26px,4vw,36px); font-weight:400; margin:26px 0 10px; color:var(--black)}
   .lede{color:var(--muted-2); font-size:16px; max-width:660px; margin-bottom:20px}
-  .lede b{color:var(--ink); font-weight:700}
+  .lede b{color:var(--ink); font-weight:500}
   .glance{display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:12px; margin-bottom:24px}
   .gcard{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 18px}
-  .gnum{font-size:27px; line-height:1.1; color:var(--black)}
+  .gnum{font-family:var(--font-disp); font-size:27px; line-height:1.1; color:var(--black)}
   .gnum.small{font-size:21px}
-  .glabel{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.18em;
+  .glabel{font-family:var(--font-disp); font-size:11px; letter-spacing:.18em;
     text-transform:uppercase; color:var(--muted); margin-top:5px}
 
   /* ---------- class card ---------- */
@@ -68,23 +75,23 @@
     border-radius:12px; padding:20px 22px; margin:0 0 18px; box-shadow:0 2px 8px rgba(23,53,42,.05)}
   .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:18px}
   .title-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
-  .class-pill{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
+  .class-pill{font-family:var(--font-disp); font-size:11px; font-weight:400;
     letter-spacing:.14em; text-transform:uppercase; color:var(--green); background:var(--pill-bg);
     border:1px solid var(--pill-line); border-radius:6px; padding:4px 10px; white-space:nowrap}
-  .card h3{font-size:22px; font-weight:700; line-height:1.25; color:var(--black)}
+  .card h3{font-size:22px; font-weight:500; line-height:1.25; color:var(--black)}
   .card h3 a{color:var(--ink); text-decoration:none}
   .card h3 a:hover{text-decoration:underline}
   .card-time{text-align:right; white-space:nowrap; flex:none}
-  .card-time .t{font-size:24px; color:var(--black)}
-  .card-time .tlbl{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:10.5px; letter-spacing:.2em;
+  .card-time .t{font-family:var(--font-disp); font-size:24px; color:var(--black)}
+  .card-time .tlbl{font-family:var(--font-disp); font-size:10.5px; letter-spacing:.2em;
     text-transform:uppercase; color:var(--muted); margin-top:3px}
   .sponsor{font-size:13.5px; color:var(--muted); font-style:italic; margin-top:6px}
   .card hr{border:none; border-top:1px solid var(--line-soft); margin:15px 0}
-  .meta{display:flex; flex-wrap:wrap; gap:8px 30px; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13.5px}
-  .mlabel{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-right:8px}
-  .meta b{font-weight:700; color:var(--ink)}
+  .meta{display:flex; flex-wrap:wrap; gap:8px 30px; font-family:var(--font-body); font-size:13.5px}
+  .mlabel{font-family:var(--font-disp); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-right:8px}
+  .meta b{font-weight:500; color:var(--ink)}
   .oog{font-size:13.5px; color:var(--muted-2); margin-top:10px}
-  .oog b{color:var(--ink); font-weight:700}
+  .oog b{color:var(--ink); font-weight:500}
 
   /* ---------- weather ---------- */
   .wx{display:flex; align-items:center; gap:14px; border:1px solid var(--line); border-radius:12px;
@@ -94,72 +101,72 @@
   .wx-icon{width:46px; height:46px; flex:none; border:1.5px solid var(--tab-line); border-radius:11px;
     display:flex; align-items:center; justify-content:center; background:var(--card)}
   .wx-icon svg{width:24px; height:24px; stroke:var(--green); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
-  .wx-temp{font-size:30px; line-height:1}
-  .wx-cond{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+  .wx-temp{font-family:var(--font-disp); font-size:30px; line-height:1}
+  .wx-cond{font-family:var(--font-body)}
   .wx-cond b{display:block; font-size:15px; color:var(--ink)}
   .wx-cond small{font-size:12.5px; color:var(--muted)}
-  .wx-at{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:10.5px;
+  .wx-at{margin-left:auto; font-family:var(--font-disp); font-size:10.5px;
     letter-spacing:.2em; text-transform:uppercase; color:var(--muted); white-space:nowrap}
 
   /* ---------- rides ---------- */
-  .rides-head{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; letter-spacing:.2em;
+  .rides-head{font-family:var(--font-disp); font-size:11.5px; letter-spacing:.2em;
     text-transform:uppercase; color:var(--muted); margin:18px 0 4px}
   .ride{display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px dashed var(--row-line)}
   .ride:last-child{border-bottom:none}
   .go-circle{width:46px; height:46px; flex:none; border-radius:50%; background:var(--black); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:15px}
-  .ride-main .horse{font-weight:700; font-size:16px; color:var(--black)}
-  .ride-main .rider{display:block; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-top:1px}
-  .entry{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); white-space:nowrap}
+    font-family:var(--font-body); font-weight:500; font-size:15px}
+  .ride-main .horse{font-weight:500; font-size:16px; color:var(--black)}
+  .ride-main .rider{display:block; font-family:var(--font-body); font-size:12.5px; color:var(--muted); margin-top:1px}
+  .entry{margin-left:auto; font-family:var(--font-body); font-size:12.5px; color:var(--muted); white-space:nowrap}
 
   /* ---------- weekly results ---------- */
   .res-summary{background:var(--black); color:#fff; border-radius:12px; padding:16px 22px;
     display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin:18px 0 10px}
-  .rs-count{font-size:19px; font-style:italic; white-space:nowrap}
+  .rs-count{font-family:var(--font-disp); font-size:19px; font-style:italic; white-space:nowrap}
   .rs-div{width:1px; align-self:stretch; background:rgba(255,255,255,.25)}
-  .rs-riders{display:flex; gap:22px; flex-wrap:wrap; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px}
-  .rs-riders b{font-weight:700}
-  .rs-total{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; white-space:nowrap}
-  .rs-total b{font-weight:700}
+  .rs-riders{display:flex; gap:22px; flex-wrap:wrap; font-family:var(--font-body); font-size:14px}
+  .rs-riders b{font-weight:500}
+  .rs-total{margin-left:auto; font-family:var(--font-body); font-size:14px; white-space:nowrap}
+  .rs-total b{font-weight:500}
   .asof{font-size:13px; color:var(--muted); margin-bottom:4px}
   .dayhead{display:flex; align-items:baseline; gap:12px; margin:26px 0 12px}
-  .dayhead h3{font-size:22px; font-weight:700}
-  .dayhead .dsub{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted)}
-  .pend-label{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.2em;
+  .dayhead h3{font-family:var(--font-disp); font-size:22px; font-weight:400}
+  .dayhead .dsub{font-family:var(--font-body); font-size:12.5px; color:var(--muted)}
+  .pend-label{font-family:var(--font-disp); font-size:11px; letter-spacing:.2em;
     text-transform:uppercase; color:var(--muted); margin-bottom:6px}
   .pend-row{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px dashed var(--row-line)}
   .pend-row:last-child{border-bottom:none}
-  .pend-row .cname{font-weight:700; font-size:15.5px}
+  .pend-row .cname{font-weight:500; font-size:15.5px}
   .pend-row .cname a{color:var(--ink); text-decoration:none}
   .pend-row .cname a:hover{text-decoration:underline}
-  .pend-status{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--muted); white-space:nowrap}
+  .pend-status{margin-left:auto; font-family:var(--font-body); font-size:13px; color:var(--muted); white-space:nowrap}
   .title-row .pend-status{font-size:12px; letter-spacing:.08em; text-transform:uppercase}
   .res-row{display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px dashed var(--row-line)}
   .res-row:last-child{border-bottom:none}
-  .place{flex:none; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700; min-width:56px;
+  .place{flex:none; font-family:var(--font-body); font-weight:500; min-width:56px;
     text-align:center; border-radius:8px; padding:4px 8px; background:#efe9dc; color:var(--ink); font-size:13px}
   .place.p1{background:linear-gradient(135deg,#d4af37,#f4e3a1); color:#4a3a08}
   .place.p2{background:linear-gradient(135deg,#aeb4b9,#e8ebee); color:#3c4147}
   .place.p3{background:linear-gradient(135deg,#b07a3f,#e8c39a); color:#4a2c10}
-  .res-main .horse{font-weight:700; font-size:15.5px; color:var(--black)}
-  .res-main .rider{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-left:8px}
-  .res-detail{display:block; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:12.5px; color:var(--muted); margin-top:2px}
-  .prize{margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700;
+  .res-main .horse{font-weight:500; font-size:15.5px; color:var(--black)}
+  .res-main .rider{font-family:var(--font-body); font-size:12.5px; color:var(--muted); margin-left:8px}
+  .res-detail{display:block; font-family:var(--font-body); font-size:12.5px; color:var(--muted); margin-top:2px}
+  .prize{margin-left:auto; font-family:var(--font-body); font-weight:500;
     color:var(--ink); white-space:nowrap}
 
   .empty{text-align:center; padding:48px 20px; color:var(--muted); font-style:italic}
 
   /* ---------- push alerts ---------- */
   .alerts-bar{text-align:center; margin:30px 0 2px}
-  .alerts-btn{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14.5px; font-weight:600;
+  .alerts-btn{font-family:var(--font-body); font-size:14.5px; font-weight:500;
     padding:12px 26px; border-radius:999px; border:1px solid var(--green); background:var(--green);
     color:#fff; cursor:pointer}
   .alerts-btn:hover{background:var(--green-deep)}
-  .alerts-note{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--muted);
+  .alerts-note{font-family:var(--font-body); font-size:13px; color:var(--muted);
     max-width:520px; margin:10px auto 0; line-height:1.45}
 
-  footer{text-align:center; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11.5px; color:var(--muted); padding:28px 0 8px}
+  footer{text-align:center; font-family:var(--font-body); font-size:11.5px; color:var(--muted); padding:28px 0 8px}
 
   @media (max-width:560px){
     .hero-inner{padding:40px 18px 28px}
@@ -191,7 +198,7 @@
     </div>
     <div><span class="updated" id="refresh-pill" title="Tap to refresh" style="cursor:pointer">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      Last updated November 7, 2026 at 3:00 PM EDT
+      Last updated November 7, 2026 at 3:06 PM EDT
     </span></div>
   </div>
 </header>
@@ -221,7 +228,7 @@
     <h2 class="day-h2">Weekly Results</h2>
 <p class="lede">Completed classes from 2026 ESP November (#7129) for rides trained by Wilton Porter.</p>
 <div class="res-summary"><span class="rs-count">6 classes &nbsp;·&nbsp; 6 rides</span><span class="rs-div"></span><span class="rs-riders"><span>Wilton Porter <b>$0</b></span><span>Andressa Quadros <b>$0</b></span><span>Miley Davidyan <b>$150</b></span></span><span class="rs-div"></span><span class="rs-total">Week total <b>$150</b></span></div>
-<div class="asof">As of 3:00 PM EDT on Saturday, November 7.</div>
+<div class="asof">As of 3:06 PM EDT on Saturday, November 7.</div>
 <div class="dayhead"><h3>Saturday, November 7</h3><span class="dsub">2 classes</span></div>
 <div class="card"><div class="title-row"><span class="class-pill">Class 722</span><h3><a href="https://www.wellingtoninternational.com/showgrounds/classes/detail?cid=200031215&sid=200000077&cgid=200028534&ring=5" target="_blank" rel="noopener">1.20m Junior/Amateur Jumper II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place p1">1st</span><span class="res-main"><span class="horse">TENTACION LS LA SILLA</span><span class="rider">Miley Davidyan</span><span class="res-detail">Round 1: 0 faults, 68.444s &nbsp;·&nbsp; Jump-off: 0 faults, 37.689s</span></span><span class="prize">$150</span></div></div>
 <div class="card"><div class="title-row"><span class="class-pill">Class 841</span><h3><a href="https://www.wellingtoninternational.com/showgrounds/classes/detail?cid=200031250&sid=200000077&cgid=200028524&ring=1" target="_blank" rel="noopener">1.30m Young Jumper II2b</a></h3><span class="pend-status">Final</span></div><div class="res-row"><span class="place">—</span><span class="res-main"><span class="horse">OSCAR VG</span><span class="rider">Wilton Porter</span><span class="res-detail">Round 1: 4 faults, 0s</span></span></div></div>
@@ -292,7 +299,7 @@ window.OneSignalDeferred = window.OneSignalDeferred || [];
   });
 })();
 </script>
-  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-11-07 15:00 EDT</footer>
+  <footer>Sleepy P Ranch &middot; data from ShowGroundsLive &middot; generated 2026-11-07 15:06 EDT</footer>
 </main>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn){
